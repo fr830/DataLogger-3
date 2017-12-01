@@ -24,14 +24,21 @@ namespace DataLogger
             Random rand = new Random();
             double measurement = rand.Next(1, 10);
 
-            return measurement;
-            
+            return measurement;            
         }
 
         public DateTime GetTime()
         {
             measureTime = DateTime.Now;
             return measureTime;
+        }
+
+        public Object tempTime()
+        {
+
+            double measurement = GetMeasurement();
+            DateTime measureTime = GetTime();
+            return measurement + "\t" + measureTime;
         }
 
     }

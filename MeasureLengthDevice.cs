@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace DataLogger
 {
@@ -20,20 +19,17 @@ namespace DataLogger
         int timesTicked = 1;
         int timesToTick = 10;
 
+        private double singleData;
+
         private Device device;
-        private MainPage main;
-        
+        //MainPage main = null;
 
+        private Object data;
 
-        private double data = 0;
-
-        // This field will determine whether the generated measurements 
-        // are interpreted in celcius or fahrenheit
+        // This field will determine whether the generated measurements are interpreted in celcius or fahrenheit
         private Units unitsToUse;
 
-        // This field will store a history of a limited set of recently captured measurements.
-        // Once the array is full, the class should start overwriting the oldest elements while 
-        // continuing to record the newest captures. (You may need some helper fields/variables to go with this one).
+        // This field will store a history of a limited set of recently captured measurements. Once the array is full, the class should start overwriting the oldest elements while continuing to record the newest captures. (You may need some helper fields/variables to go with this one).
         private double[] dataCaptured;
 
         //  integer - This field will store the most recent measurement captured for convenience of display.
@@ -41,18 +37,22 @@ namespace DataLogger
 
         DateTime measureTime;
 
+
         private Timer timer;
         private int limit = 10;
 
+        //public MeasureLengthDevice()
+        //{
+        //    CelciusValue(mostRecentMeasure);
+        //}
 
-
-        FixedSizeQueue<double> myQueue = new FixedSizeQueue<double>();
+        FixedSizeQueue<Object> myQueue = new FixedSizeQueue<Object>();
 
         public double GetMeasurement
         {
             get
             {
-                return data;
+                return singleData;
             }
         }
 
@@ -73,6 +73,7 @@ namespace DataLogger
             
         }
 
+       
 
         public double CelciusValue(double mostRecentMeasure)
         {
@@ -94,18 +95,17 @@ namespace DataLogger
             device = new Device();
             
             DispatcherTimerSetup();
-
             
             mostRecentMeasure = device.GetMeasurement();
             
-            if(unitsToUse == Units.Celcius)
-            {
-                mostRecentMeasure = CelciusValue(mostRecentMeasure);
-            }
-            else
-            {
-                mostRecentMeasure = FahrenheitValue(mostRecentMeasure);
-            }
+            //if(unitsToUse == Units.Celcius)
+            //{
+            //    mostRecentMeasure = CelciusValue(mostRecentMeasure);
+            //}
+            //else
+            //{
+            //    mostRecentMeasure = FahrenheitValue(mostRecentMeasure);
+            //}
             
             return mostRecentMeasure;
         }
@@ -123,27 +123,25 @@ namespace DataLogger
 
         public string historyTextBlock { get; set; }
 
+      
         public void DispatcherTimerSetup()
         {
             dispatcherTimer = new DispatcherTimer();
             dispatcherTimer.Tick += dispatcherTimer_Tick;
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 10);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 2);
             
             startTime = DateTimeOffset.Now;
             lastTime = startTime;
-
              
             myQueue.Limit = limit;
-            dispatcherTimer.Start();
-
-            
+            dispatcherTimer.Start();            
         }
 
         async void dispatcherTimer_Tick(object sender, object e)
         {
-            main = new MainPage();
+            //main = new MainPage();
             //mostRecentMeasure = device.GetMeasurement();
-            //historyTextBlock.Text = mostRecentMeasure;
+            
 
             await
                 Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
@@ -152,22 +150,24 @@ namespace DataLogger
                    
                     data = device.GetMeasurement();
 
-                    if (unitsToUse == Units.Celcius)
-                    {
-                        data = CelciusValue(data);
-                    }
-                    else
-                    {
-                        data = FahrenheitValue(data);
-                    }
+                    data = device.tempTime();
 
+                    //if (unitsToUse == Units.Celcius)
+                    //{
+                    //    data = CelciusValue(data);
+                    //}
+                    //else
+                    //{
+                    //    data = FahrenheitValue(data);
+                    //}
+
+                    //ingleData = data;
                     measureTime = device.GetTime();
                     myQueue.Enqueue(data);
-
                     
                 });
-
-            main.printQueue();
+          
+            //page.printQueue();
 
             timesTicked++;
             if (timesTicked > timesToTick)
@@ -179,7 +179,7 @@ namespace DataLogger
             }
         }
 
-        public string PrintValues(FixedSizeQueue<double> myCollection)
+        public string PrintValues(FixedSizeQueue<Object> myCollection)
         {
             StringBuilder myString = new StringBuilder();
             foreach (var i in myCollection.q)

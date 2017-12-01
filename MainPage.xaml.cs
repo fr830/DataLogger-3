@@ -22,27 +22,27 @@ namespace DataLogger
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        
+
         public MainPage()
         {
             this.InitializeComponent();
+            
         }
 
         //private MeasureLengthDevice measure;// = new MeasureLengthDevice();
         //measure = MeasureLengthDevice();
         Units unit;
 
-        public TextBlock history { get { return historyTextBlock; } }
+        
         MeasureLengthDevice newDevice = new MeasureLengthDevice();
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
             newDevice.StartCollecting(unit);
 
-            //tempTextBlock.Text = newDevice.StartCollecting(unit).ToString();
-            tempTextBlock.Text = newDevice.GetHistory;
-
+            tempTextBlock.Text = newDevice.GetMeasurement.ToString();
             timeTextBlock.Text = newDevice.GetTime.ToString();
-
             historyTextBlock.Text = newDevice.GetHistory;
 
         }
@@ -70,11 +70,13 @@ namespace DataLogger
         }
 
         public void printQueue()
-        {
-            
-            tempTextBlock.Text = newDevice.GetHistory;
-            timeTextBlock.Text = "this"; //newDevice.GetTime.ToString();
+        {            
+            tempTextBlock.Text = newDevice.GetMeasurement.ToString();
+            timeTextBlock.Text = newDevice.GetTime.ToString();
             historyTextBlock.Text = newDevice.GetHistory;
+
         }
+
+        
     }
 }
