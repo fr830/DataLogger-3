@@ -32,14 +32,18 @@ namespace DataLogger
         Units unit;
 
         public TextBlock history { get { return historyTextBlock; } }
+        MeasureLengthDevice newDevice = new MeasureLengthDevice();
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            MeasureLengthDevice newDevice = new MeasureLengthDevice();
+            newDevice.StartCollecting(unit);
 
-            
+            //tempTextBlock.Text = newDevice.StartCollecting(unit).ToString();
+            tempTextBlock.Text = newDevice.GetHistory;
 
-            timeTextBlock.Text = newDevice.StartCollecting(unit).ToString() ;
+            timeTextBlock.Text = newDevice.GetTime.ToString();
+
+            historyTextBlock.Text = newDevice.GetHistory;
 
         }
 
@@ -53,6 +57,24 @@ namespace DataLogger
         private void fahrenheitRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             unit = Units.Fahrenheit;
+        }
+
+        private void stopButton_Click(object sender, RoutedEventArgs e)
+        {
+            newDevice.StopCollecting();
+        }
+
+        private void exitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Exit();
+        }
+
+        public void printQueue()
+        {
+            
+            tempTextBlock.Text = newDevice.GetHistory;
+            timeTextBlock.Text = "this"; //newDevice.GetTime.ToString();
+            historyTextBlock.Text = newDevice.GetHistory;
         }
     }
 }

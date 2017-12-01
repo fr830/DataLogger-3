@@ -16,8 +16,8 @@
         <RadioButton x:Name="celciusRadioButton" Content="Celcius" HorizontalAlignment="Left" Margin="78,598,0,0" VerticalAlignment="Top" GroupName="tempRadio" Checked="celciusRadioButton_Checked"/>
         <RadioButton x:Name="fahrenheitRadioButton" Content="Fahrenheit" HorizontalAlignment="Left" Margin="250,598,0,0" VerticalAlignment="Top" GroupName="tempRadio" Checked="fahrenheitRadioButton_Checked"/>
         <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="44,667,0,0" VerticalAlignment="Top" Width="90" Click="startButton_Click"/>
-        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="176,667,0,0" VerticalAlignment="Top" Width="90"/>
-        <Button x:Name="exitButton" Content="Exit" HorizontalAlignment="Left" Margin="301,667,0,0" VerticalAlignment="Top" Width="90"/>
+        <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="176,667,0,0" VerticalAlignment="Top" Width="90" Click="stopButton_Click"/>
+        <Button x:Name="exitButton" Content="Exit" HorizontalAlignment="Left" Margin="301,667,0,0" VerticalAlignment="Top" Width="90" Click="exitButton_Click"/>
 
     </Grid>
 </Page>
