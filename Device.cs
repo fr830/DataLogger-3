@@ -9,8 +9,10 @@ namespace DataLogger
 {
     class Device
     {
+        MeasureLengthDevice newDevice = new MeasureLengthDevice();
         DateTime measureTime;
         double temp;
+        private Units unitsToUse;
 
         public Device()
         {
@@ -23,7 +25,7 @@ namespace DataLogger
             
             Random rand = new Random();
             double measurement = rand.Next(1, 10);
-
+            
             return measurement;            
         }
 
@@ -33,10 +35,11 @@ namespace DataLogger
             return measureTime;
         }
 
-        public Object tempTime()
+        public object tempTime()
         {
 
             double measurement = GetMeasurement();
+            measurement = newDevice.whichUnit(measurement);
             DateTime measureTime = GetTime();
             return measurement + "\t" + measureTime;
         }

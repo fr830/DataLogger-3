@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using System.Reflection;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -32,15 +33,21 @@ namespace DataLogger
 
         //private MeasureLengthDevice measure;// = new MeasureLengthDevice();
         //measure = MeasureLengthDevice();
-        Units unit;
-
-        
+        public Units unit;
+        bool appStart = false;
+        //Units unit { get; set; }
         MeasureLengthDevice newDevice = new MeasureLengthDevice();
+        Device tempDevice = new Device();
 
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
+            appStart = true;
             newDevice.StartCollecting(unit);
 
+            object testThis;
+            testThis = tempDevice.tempTime();
+
+            //tempTextBlock.Text = propertyInfo.ToString();
             tempTextBlock.Text = newDevice.GetMeasurement.ToString();
             timeTextBlock.Text = newDevice.GetTime.ToString();
             historyTextBlock.Text = newDevice.GetHistory;
@@ -48,10 +55,13 @@ namespace DataLogger
         }
 
         private void celciusRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            
-            unit = Units.Celcius;
-            
+        {          
+            unit = Units.Celcius;            
+
+            if(appStart == true)
+            {
+
+            }
         }
 
         private void fahrenheitRadioButton_Checked(object sender, RoutedEventArgs e)
@@ -69,11 +79,9 @@ namespace DataLogger
             Application.Current.Exit();
         }
 
-        public void printQueue()
-        {            
-            tempTextBlock.Text = newDevice.GetMeasurement.ToString();
-            timeTextBlock.Text = newDevice.GetTime.ToString();
-            historyTextBlock.Text = newDevice.GetHistory;
+        public Units printQueue()
+        {
+            return unit;
 
         }
 

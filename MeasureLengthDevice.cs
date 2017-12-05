@@ -22,12 +22,12 @@ namespace DataLogger
         private double singleData;
 
         private Device device;
-        //MainPage main = null;
-
-        private Object data;
-
+        //private MainPage() main;
+        
+        private object data;
+        private MainPage main;
         // This field will determine whether the generated measurements are interpreted in celcius or fahrenheit
-        private Units unitsToUse;
+        public Units unitsToUse;
 
         // This field will store a history of a limited set of recently captured measurements. Once the array is full, the class should start overwriting the oldest elements while continuing to record the newest captures. (You may need some helper fields/variables to go with this one).
         private double[] dataCaptured;
@@ -36,8 +36,10 @@ namespace DataLogger
         private double mostRecentMeasure;
 
         DateTime measureTime;
-
-
+        Units unit { get; set; }
+        //MainPage main = new MainPage();
+        //Units celciusBtn = main.unit;
+        
         private Timer timer;
         private int limit = 10;
 
@@ -72,8 +74,20 @@ namespace DataLogger
             }
             
         }
-
-       
+        
+        public double whichUnit(double measurement)
+        {
+            //unitsToUse = main.printQueue();
+            if (unitsToUse == Units.Celcius)
+            {
+                measurement = CelciusValue(measurement);
+            }
+            else
+            {
+                measurement = FahrenheitValue(measurement);
+            }
+            return measurement;
+        }
 
         public double CelciusValue(double mostRecentMeasure)
         {
@@ -88,7 +102,7 @@ namespace DataLogger
         }
 
 
-        public double StartCollecting(Units unit)
+        public Units StartCollecting(Units unit)
         {
             unitsToUse = unit;
          
@@ -96,7 +110,7 @@ namespace DataLogger
             
             DispatcherTimerSetup();
             
-            mostRecentMeasure = device.GetMeasurement();
+            //mostRecentMeasure = device.GetMeasurement();
             
             //if(unitsToUse == Units.Celcius)
             //{
@@ -107,7 +121,7 @@ namespace DataLogger
             //    mostRecentMeasure = FahrenheitValue(mostRecentMeasure);
             //}
             
-            return mostRecentMeasure;
+            return unitsToUse;
         }
 
         public bool StopCollecting()
@@ -139,7 +153,7 @@ namespace DataLogger
 
         async void dispatcherTimer_Tick(object sender, object e)
         {
-            //main = new MainPage();
+            
             //mostRecentMeasure = device.GetMeasurement();
             
 
@@ -148,38 +162,27 @@ namespace DataLogger
                 () =>
                 {
                    
-                    data = device.GetMeasurement();
+                    //data = device.GetMeasurement();
 
                     data = device.tempTime();
 
-                    //if (unitsToUse == Units.Celcius)
-                    //{
-                    //    data = CelciusValue(data);
-                    //}
-                    //else
-                    //{
-                    //    data = FahrenheitValue(data);
-                    //}
-
-                    //ingleData = data;
+                   
                     measureTime = device.GetTime();
                     myQueue.Enqueue(data);
                     
                 });
-          
-            //page.printQueue();
+   
 
             timesTicked++;
             if (timesTicked > timesToTick)
             {
-                //stopTime = time;
-                // page.history.Text += "Calling dispatcherTimer.Stop()\n";
+                
                 dispatcherTimer.Stop();
                 
             }
         }
 
-        public string PrintValues(FixedSizeQueue<Object> myCollection)
+        public string PrintValues(FixedSizeQueue<object> myCollection)
         {
             StringBuilder myString = new StringBuilder();
             foreach (var i in myCollection.q)
