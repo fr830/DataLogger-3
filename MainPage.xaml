@@ -10,14 +10,15 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="78,50,0,0" TextWrapping="Wrap" Text="Temperature" VerticalAlignment="Top"/>
         <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" Margin="250,50,0,0" TextWrapping="Wrap" Text="Time" VerticalAlignment="Top"/>
-        <TextBlock x:Name="tempTextBlock" HorizontalAlignment="Left" Margin="78,106,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <TextBlock x:Name="timeTextBlock" HorizontalAlignment="Left" Margin="250,106,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <TextBlock x:Name="historyTextBlock" x:FieldModifier="public" HorizontalAlignment="Left" Margin="44,186,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="373" Width="335"/>
+        <TextBlock x:Name="tempTextBlock" HorizontalAlignment="Left" Margin="78,106,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="20"/>
+        <TextBlock x:Name="timeTextBlock" HorizontalAlignment="Left" Margin="250,106,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="20"/>
+        <TextBlock x:Name="tempHistory" x:FieldModifier="public" HorizontalAlignment="Left" Margin="44,186,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Height="373" Width="154"/>
         <RadioButton x:Name="celciusRadioButton" Content="Celcius" HorizontalAlignment="Left" Margin="78,598,0,0" VerticalAlignment="Top" GroupName="tempRadio" Checked="celciusRadioButton_Checked"/>
         <RadioButton x:Name="fahrenheitRadioButton" Content="Fahrenheit" HorizontalAlignment="Left" Margin="250,598,0,0" VerticalAlignment="Top" GroupName="tempRadio" Checked="fahrenheitRadioButton_Checked"/>
         <Button x:Name="startButton" Content="Start" HorizontalAlignment="Left" Margin="44,667,0,0" VerticalAlignment="Top" Width="90" Click="startButton_Click"/>
         <Button x:Name="stopButton" Content="Stop" HorizontalAlignment="Left" Margin="176,667,0,0" VerticalAlignment="Top" Width="90" Click="stopButton_Click"/>
         <Button x:Name="exitButton" Content="Exit" HorizontalAlignment="Left" Margin="301,667,0,0" VerticalAlignment="Top" Width="90" Click="exitButton_Click"/>
+        <TextBlock x:Name="timeHistory" HorizontalAlignment="Left" Margin="203,186,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" RenderTransformOrigin="0.497,-1.04" Height="373" Width="167"/>
 
     </Grid>
 </Page>

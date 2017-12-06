@@ -20,11 +20,9 @@ namespace DataLogger
         int timesToTick = 10;
 
         private double singleData;
-
         private Device device;
-        //private MainPage() main;
-        
-        private object data;
+  
+        private double data;
         private MainPage main;
         // This field will determine whether the generated measurements are interpreted in celcius or fahrenheit
         public Units unitsToUse;
@@ -43,12 +41,9 @@ namespace DataLogger
         private Timer timer;
         private int limit = 10;
 
-        //public MeasureLengthDevice()
-        //{
-        //    CelciusValue(mostRecentMeasure);
-        //}
-
-        FixedSizeQueue<Object> myQueue = new FixedSizeQueue<Object>();
+        // Build new Queues
+        FixedSizeQueue<Object> timeQueue = new FixedSizeQueue<Object>();
+        FixedSizeQueue<Object> tempQueue = new FixedSizeQueue<Object>();
 
         public double GetMeasurement
         {
@@ -62,19 +57,20 @@ namespace DataLogger
         {
             get
             {
-                return PrintValues(myQueue);
+                return PrintValues(tempQueue);
             }
         }
 
-        public DateTime GetTime
+        public string GetTime
         {
             get
             {
-                return measureTime;
+                return PrintValues(timeQueue);
             }
             
         }
         
+        // Figure out which unit to use
         public double whichUnit(double measurement)
         {
             //unitsToUse = main.printQueue();
@@ -101,7 +97,7 @@ namespace DataLogger
             return mostRecentMeasure;
         }
 
-
+        // Start collecting data
         public Units StartCollecting(Units unit)
         {
             unitsToUse = unit;
@@ -109,18 +105,7 @@ namespace DataLogger
             device = new Device();
             
             DispatcherTimerSetup();
-            
-            //mostRecentMeasure = device.GetMeasurement();
-            
-            //if(unitsToUse == Units.Celcius)
-            //{
-            //    mostRecentMeasure = CelciusValue(mostRecentMeasure);
-            //}
-            //else
-            //{
-            //    mostRecentMeasure = FahrenheitValue(mostRecentMeasure);
-            //}
-            
+           
             return unitsToUse;
         }
 
@@ -137,7 +122,7 @@ namespace DataLogger
 
         public string historyTextBlock { get; set; }
 
-      
+        // Get data on tick
         public void DispatcherTimerSetup()
         {
             dispatcherTimer = new DispatcherTimer();
@@ -147,7 +132,8 @@ namespace DataLogger
             startTime = DateTimeOffset.Now;
             lastTime = startTime;
              
-            myQueue.Limit = limit;
+            timeQueue.Limit = limit;
+            tempQueue.Limit = limit;
             dispatcherTimer.Start();            
         }
 
@@ -162,14 +148,20 @@ namespace DataLogger
                 () =>
                 {
                    
-                    //data = device.GetMeasurement();
-
-                    data = device.tempTime();
-
-                   
+                    data = device.GetMeasurement();
+                    if (unitsToUse == Units.Celcius)
+                    {
+                        data = CelciusValue(data);
+                    }
+                    else
+                    {
+                        data = FahrenheitValue(data);
+                    }
                     measureTime = device.GetTime();
-                    myQueue.Enqueue(data);
-                    
+
+                    timeQueue.Enqueue(measureTime);
+                    tempQueue.Enqueue(data);
+
                 });
    
 

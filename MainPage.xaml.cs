@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,60 +32,44 @@ namespace DataLogger
             
         }
 
-        //private MeasureLengthDevice measure;// = new MeasureLengthDevice();
-        //measure = MeasureLengthDevice();
         public Units unit;
-        bool appStart = false;
-        //Units unit { get; set; }
         MeasureLengthDevice newDevice = new MeasureLengthDevice();
         Device tempDevice = new Device();
+       
 
+        // Build a new device and display the measurements in text boxes
         private void startButton_Click(object sender, RoutedEventArgs e)
         {
-            appStart = true;
             newDevice.StartCollecting(unit);
-
-            object testThis;
-            testThis = tempDevice.tempTime();
-
-            //tempTextBlock.Text = propertyInfo.ToString();
-            tempTextBlock.Text = newDevice.GetMeasurement.ToString();
-            timeTextBlock.Text = newDevice.GetTime.ToString();
-            historyTextBlock.Text = newDevice.GetHistory;
+            tempTextBlock.Text = newDevice.GetHistory;
+            timeTextBlock.Text = tempDevice.GetTime().ToString();
+            timeHistory.Text = newDevice.GetTime.ToString();
+            tempHistory.Text = newDevice.GetHistory;
 
         }
 
+        // Set units to use
         private void celciusRadioButton_Checked(object sender, RoutedEventArgs e)
         {          
             unit = Units.Celcius;            
-
-            if(appStart == true)
-            {
-
-            }
         }
 
+        // Set units to use
         private void fahrenheitRadioButton_Checked(object sender, RoutedEventArgs e)
         {
             unit = Units.Fahrenheit;
         }
 
+        // Stop app from collecting data
         private void stopButton_Click(object sender, RoutedEventArgs e)
         {
             newDevice.StopCollecting();
         }
 
+        // Exit the app
         private void exitButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
         }
-
-        public Units printQueue()
-        {
-            return unit;
-
-        }
-
-        
     }
 }
